@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: notesnook-sync-server-admin
+  profiles:
+    active: local
+  security:
+    user:
+      name: admin
+      password: admin
+notesnook:
+  app-salt: oVzKtazBo7d8sb7TBvY9jw
+springdoc:
+  api-docs:
+    enabled: true
+    path: /doc/v3/api-docs
+  swagger-ui:
+    path: /doc/swagger-ui.html
+    enabled: true

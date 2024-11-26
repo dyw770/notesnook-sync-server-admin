@@ -1,0 +1,9 @@
+logging:
+  level:
+    root: info
+    cn.dyw.svtcc.music: debug
+    druid.sql: debug
+    org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor: trace
+    org.springframework.web.servlet.handler: debug
+    org.springframework.web.servlet.DispatcherServlet: info
+    org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping: trace

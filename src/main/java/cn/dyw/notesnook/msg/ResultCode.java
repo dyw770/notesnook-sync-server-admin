@@ -17,7 +17,7 @@ public enum ResultCode {
     UNKNOWN(1000, "未知异常"),
 
     FAIL(1001, "操作失败"),
-    
+
     ;
 
 

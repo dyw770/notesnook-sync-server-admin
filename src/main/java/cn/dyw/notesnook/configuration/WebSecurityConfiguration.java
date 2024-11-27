@@ -22,8 +22,8 @@ public class WebSecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
                                                    @Qualifier("handlerExceptionResolver") HandlerExceptionResolver resolver) throws Exception {
-        
-        
+
+
         http.authorizeHttpRequests(
                         (authorize) -> authorize
                                 .requestMatchers("/login").permitAll()
@@ -35,6 +35,8 @@ public class WebSecurityConfiguration {
                 )
                 .cors(Customizer.withDefaults())
                 .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(basic -> {
+                })
                 .logout(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable);
 

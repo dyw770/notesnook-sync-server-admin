@@ -1,8 +1,12 @@
+spring:
+  data:
+    mongodb:
+      host: 192.168.19.15
+      port: 27017
 logging:
   level:
     root: info
-    cn.dyw.svtcc.music: debug
-    druid.sql: debug
+    cn.dyw.notesnook: debug
     org.springframework.web.servlet.mvc.method.annotation.RequestResponseBodyMethodProcessor: trace
     org.springframework.web.servlet.handler: debug
     org.springframework.web.servlet.DispatcherServlet: info

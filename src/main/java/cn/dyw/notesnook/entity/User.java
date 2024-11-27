@@ -46,9 +46,6 @@ public class User {
     @Field(value = "PhoneNumber")
     private String phoneNumber;
 
-    @Field(value = "Name")
-    private String name;
-
     @Field(value = "PhoneNumberConfirmed")
     private Boolean phoneNumberConfirmed;
 

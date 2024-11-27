@@ -1,5 +1,6 @@
 package cn.dyw.notesnook.configuration;
 
+import cn.dyw.notesnook.configuration.properties.NotesnookProperties;
 import com.mongodb.client.MongoClient;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.context.annotation.Bean;
@@ -7,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.mongodb.MongoDatabaseFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
 import org.springframework.data.mongodb.core.convert.*;
 import org.springframework.data.mongodb.core.mapping.MongoMappingContext;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
@@ -18,15 +20,27 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @Configuration
 public class MongodbConfiguration {
 
+    private final NotesnookProperties properties;
+
+    public MongodbConfiguration(NotesnookProperties properties) {
+        this.properties = properties;
+    }
+
     @Bean
-    public MongoTemplate identityMongoTemplate(MongoClient client) {
-        return new MongoTemplate(client, "identity");
+    public MongoTemplate identityMongoTemplate(MongoClient client, MongoConverter mongoConverter) {
+        return new MongoTemplate(
+                new SimpleMongoClientDatabaseFactory(client, properties.getIdentityDbName()),
+                mongoConverter
+        );
     }
 
     @Bean
     @Primary
-    public MongoTemplate notesnookMongoTemplate(MongoClient client) {
-        return new MongoTemplate(client, "notesnook");
+    public MongoTemplate notesnookMongoTemplate(MongoClient client, MongoConverter mongoConverter) {
+        return new MongoTemplate(
+                new SimpleMongoClientDatabaseFactory(client, properties.getNotesnookDbName()),
+                mongoConverter
+        );
     }
 
     @Bean

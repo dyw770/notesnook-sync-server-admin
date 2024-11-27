@@ -19,4 +19,14 @@ public class NotesnookProperties {
      * Notesnook 默认salt前缀
      */
     private String appSalt;
+
+    /**
+     * identity 库
+     */
+    private String identityDbName = "identity";
+
+    /**
+     * notesnook 库
+     */
+    private String notesnookDbName = "notesnook";
 }

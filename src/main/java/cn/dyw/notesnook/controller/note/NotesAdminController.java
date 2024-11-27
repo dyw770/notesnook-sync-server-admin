@@ -1,4 +1,4 @@
-package cn.dyw.notesnook.controller;
+package cn.dyw.notesnook.controller.note;
 
 import cn.dyw.notesnook.entity.Notes;
 import cn.dyw.notesnook.msg.ApiResult;
@@ -33,5 +33,7 @@ public class NotesAdminController {
         List<Notes> list = notesRepository.findAll();
         return ApiResult.success(list);
     }
+    
+    
 }
 

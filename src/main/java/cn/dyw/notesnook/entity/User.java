@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.time.Instant;
 import java.util.List;
 
 @Data
@@ -38,7 +39,7 @@ public class User {
     private Boolean emailConfirmed;
 
     @Field(value = "LockoutEnd")
-    private String lockoutEnd;
+    private Instant lockoutEnd;
 
     @Field(value = "PasswordHash")
     private String passwordHash;

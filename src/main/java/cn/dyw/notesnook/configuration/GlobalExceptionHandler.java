@@ -18,6 +18,7 @@ import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 /***
  * 全局异常错误
@@ -51,6 +52,18 @@ public class GlobalExceptionHandler {
     private ApiResult<Void> appRuntimeExceptionHandler(AppRuntimeException e) {
         logException(e);
         return ApiResult.fail(e.getCode());
+    }
+
+    /**
+     * 静态资源异常
+     *
+     * @param e 异常
+     * @return 结果
+     */
+    @ExceptionHandler(NoResourceFoundException.class)
+    private ApiResult<Void> noResourceFoundExceptionHandler(NoResourceFoundException e) {
+        logException(e);
+        return ApiResult.fail(ResultCode.NO_STATIC_RESOURCE_ERROR);
     }
 
     /**

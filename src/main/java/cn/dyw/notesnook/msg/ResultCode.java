@@ -38,6 +38,8 @@ public enum ResultCode {
 
     REQUEST_BODY_MISS_ERROR(5004, "缺少Request Body"),
 
+    NO_STATIC_RESOURCE_ERROR(5005, "无法找到静态资源"),
+
     ;
 
 

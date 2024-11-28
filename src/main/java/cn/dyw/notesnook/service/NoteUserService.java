@@ -5,16 +5,13 @@ import cn.dyw.notesnook.entity.Role;
 import cn.dyw.notesnook.entity.User;
 import cn.dyw.notesnook.entity.UserSetting;
 import cn.dyw.notesnook.msg.rq.CreateUserRq;
-import cn.dyw.notesnook.msg.rq.PageRq;
 import cn.dyw.notesnook.msg.rs.UserRs;
 import cn.dyw.notesnook.repository.identity.RoleRepository;
 import cn.dyw.notesnook.repository.identity.UserRepository;
 import cn.dyw.notesnook.repository.notesnook.UserSettingRepository;
 import cn.dyw.notesnook.utils.NotesnookUtils;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;

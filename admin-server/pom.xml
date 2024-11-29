@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cn.dyw</groupId>
-    <artifactId>notesnook-sync-server-admin</artifactId>
+    <artifactId>notesnook-admin-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>notesnook-sync-server-admin</name>
-    <description>notesnook-sync-server-admin</description>
+    <name>notesnook-admin-server</name>
+    <description>notesnook-admin-server</description>
     <url/>
     <licenses>
         <license/>

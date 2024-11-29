@@ -39,4 +39,4 @@ COPY --from=sodium-builder /usr/local/lib/libsodium.so /usr/local/lib/
 COPY --from=java-builder /app/notesnook-sync-server-admin/notesnook-sync-server-admin.jar \
     /app/notesnook-sync-server-admin.jar
 
-ENTRYPOINT ["java", "-jar", "notesnook-sync-server-admin.jar"]
+ENTRYPOINT ["java", "-jar", "notesnook-sync-server-admin.jar", "--spring.profiles.active=prod"]

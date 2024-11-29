@@ -1,0 +1,8 @@
+spring:
+  data:
+    mongodb:
+      host: ${MONGODB_HOST}
+      port: ${MONGODB_PORT}
+logging:
+  level:
+    root: info

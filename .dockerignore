@@ -1,0 +1,4 @@
+### Maven template
+target
+.idea
+*local.yml

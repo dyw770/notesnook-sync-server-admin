@@ -1,5 +1,4 @@
 FROM ubuntu:24.10 AS sodium-builder
-LABEL authors="dyw770"
 
 WORKDIR /app
 
@@ -22,15 +21,22 @@ WORKDIR /app/notesnook-sync-server-admin
 
 COPY . /app/notesnook-sync-server-admin
 
-RUN mvn clean package -DskipTests=true
+RUN  mvn clean package -DskipTests=true \
+     && app_file="$(mvn help:evaluate -Dexpression="project.build.finalName" -q -DforceStdout).jar" \
+     && cp target/$app_file notesnook-sync-server-admin.jar
 
 FROM eclipse-temurin:17-jdk
+
+LABEL authors="dyw770"
+
+ENV ADMIN_USERNAME=admin
+ENV ADMIN_PASSWORD=admin
 
 WORKDIR /app
 
 COPY --from=sodium-builder /usr/local/lib/libsodium.so /usr/local/lib/
 
-COPY --from=java-builder /app/notesnook-sync-server-admin/target/notesnook-sync-server-admin-0.0.1-SNAPSHOT.jar \
+COPY --from=java-builder /app/notesnook-sync-server-admin/notesnook-sync-server-admin.jar \
     /app/notesnook-sync-server-admin.jar
 
 ENTRYPOINT ["java", "-jar", "notesnook-sync-server-admin.jar"]

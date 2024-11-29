@@ -5,14 +5,16 @@ spring:
     active: local
   security:
     user:
-      name: admin
-      password: admin
+      name: ${ADMIN_USERNAME:admin}
+      password: ${ADMIN_PASSWORD:admin}
   jackson:
     serialization:
       write-dates-with-zone-id: true
       write-dates-as-timestamps: true
 notesnook:
-  app-salt: oVzKtazBo7d8sb7TBvY9jw
+  app-salt: ${APP_SALT:oVzKtazBo7d8sb7TBvY9jw}
+  identity-db-name: ${IDENTITY_DB_NAME:identity}
+  notesnook-db-name: ${NOTESNOOK_DB_NAME:notesnook}
 springdoc:
   api-docs:
     enabled: true

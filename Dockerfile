@@ -33,4 +33,4 @@ COPY --from=sodium-builder /usr/local/lib/libsodium.so /usr/local/lib/
 COPY --from=java-builder /app/notesnook-sync-server-admin/target/notesnook-sync-server-admin-0.0.1-SNAPSHOT.jar \
     /app/notesnook-sync-server-admin.jar
 
-ENTRYPOINT ["top", "-b"]
+ENTRYPOINT ["java", "-jar", "notesnook-sync-server-admin.jar"]

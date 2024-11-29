@@ -66,4 +66,5 @@ public class MongodbConfiguration {
     static class NotesnookMongodbConfiguration {
 
     }
+
 }

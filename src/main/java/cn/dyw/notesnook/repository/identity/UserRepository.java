@@ -6,6 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
+import org.springframework.data.mongodb.repository.Update;
+
+import java.time.Instant;
 
 /**
  * @author dyw770
@@ -15,4 +18,8 @@ public interface UserRepository extends MongoRepository<User, String> {
 
     @Query(value = "{}", fields = "{ 'id': 1, 'userName': 1, 'email': 1, 'emailConfirmed': 1, 'phoneNumber': 1, 'phoneNumberConfirmed': 1, 'twoFactorEnabled': 1, 'lockoutEnabled': 1,'lockoutEnd': 1, 'accessFailedCount': 1}")
     Page<UserRs> queryPage(Pageable pageable);
+
+    @Query("{_id: ObjectId(?0)}")
+    @Update("{'$set':  {'LockoutEnd':  ?1}}")
+    long updateUserLock(String id, Instant lockoutEnd);
 }

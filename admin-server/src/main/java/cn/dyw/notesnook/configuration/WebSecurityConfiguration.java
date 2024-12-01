@@ -22,6 +22,10 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.DelegatingSecurityContextRepository;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
+import org.springframework.security.web.context.RequestAttributeSecurityContextRepository;
+import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 
@@ -52,6 +56,8 @@ public class WebSecurityConfiguration {
                                 .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                                 .anyRequest().authenticated()
                 )
+                .securityContext(securityContext ->
+                        securityContext.securityContextRepository(securityContextRepository()))
                 .authenticationManager(authenticationManager)
                 .cors(Customizer.withDefaults())
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -59,6 +65,7 @@ public class WebSecurityConfiguration {
                         handler.accessDeniedHandler(new AccessDeniedHandler(resolver))
                                 .authenticationEntryPoint(new AuthenticationEntryPoint(resolver))
                 )
+                .sessionManagement(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults())
                 .logout(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable);
@@ -73,6 +80,14 @@ public class WebSecurityConfiguration {
         authenticationProvider.setUserDetailsService(userDetailsService);
         authenticationProvider.setHideUserNotFoundExceptions(false);
         return new ProviderManager(authenticationProvider);
+    }
+
+    @Bean
+    public SecurityContextRepository securityContextRepository() {
+        return new DelegatingSecurityContextRepository(
+                new RequestAttributeSecurityContextRepository(),
+                new HttpSessionSecurityContextRepository()
+        );
     }
 
     @Bean
@@ -95,7 +110,7 @@ public class WebSecurityConfiguration {
                             + "production.%n",
                     user.getPassword()));
         }
-        
+
         return encoder.encode(password);
     }
 

@@ -1,6 +1,7 @@
 package cn.dyw.notesnook.msg.rq;
 
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
 
 import java.time.Instant;
 
@@ -14,6 +15,7 @@ public class LockUserRq {
     /**
      * 用户id
      */
+    @Length(min = 24, max = 24)
     private String id;
 
     /**

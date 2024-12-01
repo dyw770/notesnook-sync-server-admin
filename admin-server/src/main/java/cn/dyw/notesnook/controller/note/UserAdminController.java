@@ -5,14 +5,19 @@ import cn.dyw.notesnook.msg.rq.CreateUserRq;
 import cn.dyw.notesnook.msg.rq.LockUserRq;
 import cn.dyw.notesnook.msg.rs.UserRs;
 import cn.dyw.notesnook.service.NoteUserService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
  * @author dyw770
  * @date 2024-11-27
  */
+@Validated
 @RestController
 @RequestMapping("/admin/users")
 public class UserAdminController {
@@ -30,7 +35,7 @@ public class UserAdminController {
      * @return 用户ID
      */
     @PostMapping
-    public ApiResult<String> create(@RequestBody CreateUserRq rq) {
+    public ApiResult<String> create(@Valid @RequestBody CreateUserRq rq) {
         String userId = noteUserService.createNoteUser(rq);
         return ApiResult.success("创建用户成功", userId);
     }
@@ -53,7 +58,7 @@ public class UserAdminController {
      * @return 结果
      */
     @DeleteMapping
-    public ApiResult<Void> delete(@RequestParam("id") String id) {
+    public ApiResult<Void> delete(@Length(min = 24, max = 24) @NotEmpty @RequestParam("id") String id) {
         noteUserService.deleteUser(id);
         return ApiResult.success("删除用户成功");
     }
@@ -71,7 +76,7 @@ public class UserAdminController {
     }
 
     @GetMapping("/unlock")
-    public ApiResult<Void> unlock(@RequestParam("id") String id) {
+    public ApiResult<Void> unlock(@Length(min = 24, max = 24)  @RequestParam("id") String id) {
         noteUserService.unlockUser(id);
         return ApiResult.success("解锁用户成功");
     }

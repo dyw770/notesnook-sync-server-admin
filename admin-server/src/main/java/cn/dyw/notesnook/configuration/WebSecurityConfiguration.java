@@ -50,6 +50,7 @@ public class WebSecurityConfiguration {
                         authorize
                                 .requestMatchers("/login").permitAll()
                                 .requestMatchers("/logout").permitAll()
+                                .requestMatchers("/").permitAll()
                                 .requestMatchers("/index.html").permitAll()
                                 .requestMatchers("/static/**").permitAll()
                                 .requestMatchers("/doc/**").permitAll()

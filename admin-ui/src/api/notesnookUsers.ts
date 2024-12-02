@@ -19,3 +19,6 @@ export function lockUser(id: string, lockoutEnd: string) {
 export function userInfo() {
     return request.get("/user/info");
 }
+export function logout() {
+    return request.get("/logout");
+}

@@ -1,7 +1,9 @@
 <template>
-  <div>
-    <el-row>
-      <el-card style="max-width: 480px">
+  <div class="home">
+  <el-button class="logout-btn" type="danger" plain :icon="Right" @click="handleLogout">Logout</el-button>
+
+    <div class="home-card">
+      <el-card class="home-card-item">
         <template #header>
           <div>
             <span>User Count</span>
@@ -9,7 +11,7 @@
         </template>
         {{ dashboardData.userCount }}
       </el-card>
-      <el-card style="max-width: 480px">
+      <el-card class="home-card-item">
         <template #header>
           <div>
             <span>Note Count</span>
@@ -17,7 +19,7 @@
         </template>
         {{ dashboardData.noteCount }}
       </el-card>
-      <el-card style="max-width: 480px">
+      <el-card class="home-card-item">
         <template #header>
           <div>
             <span>Monograph Count</span>
@@ -25,7 +27,7 @@
         </template>
         {{ dashboardData.monographCount }}
       </el-card>
-      <el-card style="max-width: 480px">
+      <el-card class="home-card-item">
         <template #header>
           <div>
             <span>Attachment Count</span>
@@ -33,140 +35,209 @@
         </template>
         {{ dashboardData.attachmentCount }}
       </el-card>
-    </el-row>
+    </div>
 
-    <el-table :data="userListData" style="width: 100%">
-      <el-table-column prop="accessFailedCount" label="Access Failed" width="180"/>
-      <el-table-column prop="email" label="email" width="180"/>
-      <el-table-column prop="lockoutEnabled" label="Lockout Enabled" width="180"/>
-      <el-table-column prop="userName" label="User Name" width="180"/>
-      <el-table-column prop="emailConfirmed" label="Email Confirmed" width="180"/>
-      <el-table-column prop="lockoutEnd" label="Lockout End" width="180">
-        <template #default="scope">
-          {{ dayjs(scope.row.lockoutEnd).format('YYYY-MM-DD HH:mm:ss') }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="phoneNumber" label="phoneNumber" width="180"/>
-      <el-table-column prop="phoneNumberConfirmed" label="Phone Number Confirmed" width="180"/>
-      <el-table-column fixed="right" label="Operations" min-width="120">
-        <template #header>
-          <el-button
+    <div class="home-data">
+      <el-table height="calc(100% - 44px)" :data="userListData">
+        <el-table-column
+            type="index"
+            width="50" />
+        <el-table-column
+          prop="accessFailedCount"
+          label="Access Failed"
+          width="180" />
+        <el-table-column
+          prop="email"
+          label="email"
+          width="180" />
+        <el-table-column
+          prop="lockoutEnabled"
+          label="Lockout Enabled"
+          width="180" />
+        <el-table-column
+          prop="userName"
+          label="User Name"
+          width="180" />
+        <el-table-column
+          prop="emailConfirmed"
+          label="Email Confirmed"
+          width="180" />
+        <el-table-column
+          prop="lockoutEnd"
+          label="Lockout End"
+          width="180" >
+          <template #default="scope">
+            {{ dayjs(scope.row.lockoutEnd).format('YYYY-MM-DD HH:mm:ss') }}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="phoneNumber"
+          label="phoneNumber"
+          width="180" />
+        <el-table-column
+          prop="phoneNumberConfirmed"
+          label="Phone Number Confirmed"
+          width="180" />
+        <el-table-column
+          fixed="right"
+          label="Operations"
+          min-width="120">
+          <template #header>
+            <el-button
               link
               type="primary"
               size="small"
               @click.prevent="showAddDialog">
-            Add
-          </el-button>
-        </template>
-        <template #default="scope">
-          <el-button
+              Add
+            </el-button>
+          </template>
+          <template #default="scope">
+            <el-button
               link
               type="danger"
               size="small"
               @click.prevent="handleDelete(scope.row.id)">
-            Remove
-          </el-button>
-          <el-button
+              Remove
+            </el-button>
+            <el-button
               link
               type="warning"
               size="small"
               @click.prevent="showLockDialog(scope.row)">
-            Lock
-          </el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
+              Lock
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        class="home-data-page"
         layout="total, sizes, prev, pager, next"
         v-model:current-page="pageData.currentPage"
         v-model:page-size="pageData.pageSize"
         :page-sizes="[10, 50, 100, 500]"
-        :total="pageData.total"/>
+        :total="pageData.total" />
 
-    <!-- lock dialog -->
-    <el-dialog v-model="dialogShow.showLock" title="Lock User" width="500">
-      <el-form :model="lockForm">
-        <el-form-item label="ID" prop="id">
-          <el-input v-model="lockForm.id" autocomplete="off" disabled/>
-        </el-form-item>
-        <el-form-item label="userName" prop="userName">
-          <el-input v-model="lockForm.userName" autocomplete="off" disabled/>
-        </el-form-item>
-        <el-form-item label="Lockout End" prop="lockoutEnd">
-          <el-date-picker
+      <!-- lock dialog -->
+      <el-dialog
+        v-model="dialogShow.showLock"
+        title="Lock User"
+        width="500">
+        <el-form :model="lockForm">
+          <el-form-item
+            label="ID"
+            prop="id">
+            <el-input
+              v-model="lockForm.id"
+              autocomplete="off"
+              disabled />
+          </el-form-item>
+          <el-form-item
+            label="userName"
+            prop="userName">
+            <el-input
+              v-model="lockForm.userName"
+              autocomplete="off"
+              disabled />
+          </el-form-item>
+          <el-form-item
+            label="Lockout End"
+            prop="lockoutEnd">
+            <el-date-picker
               v-model="lockForm.lockoutEnd"
               type="datetime"
               placeholder="Pick a Date"
               format="YYYY-MM-DDTHH:mm:ss.SSSZ"
-              value-format="YYYY-MM-DDTHH:mm:ss.SSSZ"
-          />
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="dialogShow.showLock = false">Cancel</el-button>
-          <el-button type="primary" @click="handleLock">
-            Confirm
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
+              value-format="YYYY-MM-DDTHH:mm:ss.SSSZ" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <div class="dialog-footer">
+            <el-button @click="dialogShow.showLock = false">Cancel</el-button>
+            <el-button
+              type="primary"
+              @click="handleLock">
+              Confirm
+            </el-button>
+          </div>
+        </template>
+      </el-dialog>
 
-
-    <!-- add dialog -->
-    <el-dialog v-model="dialogShow.showAdd" title="Add User" width="500">
-      <el-form :model="addForm">
-        <el-form-item label="Username" prop="userName">
-          <el-input v-model="addForm.userName" autocomplete="off"/>
-        </el-form-item>
-        <el-form-item label="Password" prop="password">
-          <el-input v-model="addForm.password" type="password" autocomplete="off"/>
-        </el-form-item>
-        <el-form-item label="Email" prop="email">
-          <el-input v-model="addForm.email" type="text" autocomplete="off"/>
-        </el-form-item>
-      </el-form>
-      <template #footer>
-        <div class="dialog-footer">
-          <el-button @click="dialogShow.showAdd = false">Cancel</el-button>
-          <el-button type="primary" @click="handleAdd">
-            Confirm
-          </el-button>
-        </div>
-      </template>
-    </el-dialog>
+      <!-- add dialog -->
+      <el-dialog
+        v-model="dialogShow.showAdd"
+        title="Add User"
+        width="500">
+        <el-form :model="addForm">
+          <el-form-item
+            label="Username"
+            prop="userName">
+            <el-input
+              v-model="addForm.userName"
+              autocomplete="off" />
+          </el-form-item>
+          <el-form-item
+            label="Password"
+            prop="password">
+            <el-input
+              v-model="addForm.password"
+              type="password"
+              autocomplete="off" />
+          </el-form-item>
+          <el-form-item
+            label="Email"
+            prop="email">
+            <el-input
+              v-model="addForm.email"
+              type="text"
+              autocomplete="off" />
+          </el-form-item>
+        </el-form>
+        <template #footer>
+          <div class="dialog-footer">
+            <el-button @click="dialogShow.showAdd = false">Cancel</el-button>
+            <el-button
+              type="primary"
+              @click="handleAdd">
+              Confirm
+            </el-button>
+          </div>
+        </template>
+      </el-dialog>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import {addUser, deleteUser, listUser, lockUser} from '@/api/notesnookUsers';
+import {Right} from '@element-plus/icons-vue'
+import {addUser, deleteUser, listUser, lockUser, logout} from '@/api/notesnookUsers'
 import {getDashboard} from '@/api/dashboard'
-import {onMounted, ref} from "vue";
-import {ElMessage} from "element-plus";
+import {onMounted, ref} from 'vue'
+import {ElMessage} from 'element-plus'
 import dayjs from 'dayjs'
+import router from "@/router";
 
 type NotesnookUser = {
-  id: string,
-  accessFailedCount: number,
-  email: string,
-  lockoutEnabled: boolean,
-  userName: string,
-  emailConfirmed: boolean,
-  lockoutEnd: string,
-  phoneNumber: string,
+  id: string
+  accessFailedCount: number
+  email: string
+  lockoutEnabled: boolean
+  userName: string
+  emailConfirmed: boolean
+  lockoutEnd: string
+  phoneNumber: string
   phoneNumberConfirmed: string
 }
 
 type Pagination = {
-  currentPage: number,
-  pageSize: number,
+  currentPage: number
+  pageSize: number
   total: number
 }
 
 type Dashboard = {
-  noteCount: number,
-  userCount: number,
-  monographCount: number,
+  noteCount: number
+  userCount: number
+  monographCount: number
   attachmentCount: number
 }
 
@@ -207,15 +278,13 @@ const initAddForm = () => {
   addForm.value = JSON.parse(JSON.stringify(addFormInitValue))
 }
 
-
 const userListData = ref<Array<NotesnookUser>>([])
 
 const userList = (page: number = 0, size: number = 10) => {
-  listUser(page, size)
-      .then((resp: any) => {
-        pageData.value.total = resp.data.data.page.totalElements;
-        userListData.value = resp.data.data.content;
-      })
+  listUser(page, size).then((resp: any) => {
+    pageData.value.total = resp.data.data.page.totalElements
+    userListData.value = resp.data.data.content
+  })
 }
 
 const refresh = () => {
@@ -228,10 +297,9 @@ const dialogShow = ref({
 })
 
 const handleDelete = (id: string) => {
-  deleteUser(id)
-      .then(() => {
-        refresh()
-      })
+  deleteUser(id).then(() => {
+    refresh()
+  })
 }
 
 const showLockDialog = (user: NotesnookUser) => {
@@ -242,13 +310,12 @@ const showLockDialog = (user: NotesnookUser) => {
 }
 
 const handleLock = () => {
-  lockUser(lockForm.value.id, lockForm.value.lockoutEnd)
-      .then(() => {
-        ElMessage.success("Lock successful");
-        dialogShow.value.showLock = false
-        initLockForm()
-        refresh()
-      })
+  lockUser(lockForm.value.id, lockForm.value.lockoutEnd).then(() => {
+    ElMessage.success('Lock successful')
+    dialogShow.value.showLock = false
+    initLockForm()
+    refresh()
+  })
 }
 
 const showAddDialog = () => {
@@ -257,20 +324,27 @@ const showAddDialog = () => {
 }
 
 const handleAdd = () => {
-  addUser(addForm.value.userName, addForm.value.password, addForm.value.email)
-      .then(() => {
-        ElMessage.success("Add successful");
-        dialogShow.value.showAdd = false
-        initAddForm()
-        refresh()
-      })
+  addUser(
+    addForm.value.userName,
+    addForm.value.password,
+    addForm.value.email
+  ).then(() => {
+    ElMessage.success('Add successful')
+    dialogShow.value.showAdd = false
+    initAddForm()
+    refresh()
+  })
 }
 
 const loadDashboard = () => {
-  getDashboard()
-      .then((resp) => {
-        dashboardData.value = resp.data.data;
-      })
+  getDashboard().then(resp => {
+    dashboardData.value = resp.data.data
+  })
+}
+const handleLogout = () => {
+  logout().then(() => {
+    router.push('/login')
+  })
 }
 
 onMounted(() => {
@@ -280,5 +354,30 @@ onMounted(() => {
 </script>
 
 <style scoped>
-
+.home {
+  height: 100vh;
+}
+.home-card {
+  display: flex;
+  margin-bottom: 8px;
+  gap: 10px;
+  padding: 16px;
+}
+.home-card-item {
+  flex: 1;
+  flex-shrink: 0;
+}
+.home-data {
+  padding: 10px 20px;
+  height: calc(100vh - 182px);
+}
+.home-data-page {
+  margin-top: 12px;
+}
+.logout-btn{
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  z-index: 9;
+}
 </style>

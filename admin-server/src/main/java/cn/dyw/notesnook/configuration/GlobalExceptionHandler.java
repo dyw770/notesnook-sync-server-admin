@@ -167,10 +167,16 @@ public class GlobalExceptionHandler {
         logException(e);
         FieldError fieldError = e.getFieldError();
         if (fieldError != null) {
-            return ApiResult.fail(ResultCode.PARAM_ERROR.getCode(), fieldError.getDefaultMessage() +": " + fieldError.getRejectedValue());
+            return ApiResult.fail(ResultCode.PARAM_ERROR.getCode(), buildArgumentValidErrorMsg(fieldError));
         } else {
             return ApiResult.fail(ResultCode.PARAM_ERROR);
         }
+    }
+
+    private String buildArgumentValidErrorMsg(FieldError fieldError) {
+        return fieldError.getField() +
+                ":" +
+                fieldError.getDefaultMessage();
     }
 
     /**

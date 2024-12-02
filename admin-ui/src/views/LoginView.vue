@@ -1,6 +1,6 @@
 <template>
-  <div class="login-container">
-    <el-form class="login-form"
+  <div>
+    <el-form
              label-position="left">
       <el-form-item prop="username">
         <el-icon>
@@ -21,7 +21,7 @@
             @keyup.enter.native="handleLogin"/>
       </el-form-item>
       <el-form-item>
-        <el-button :loading="loading" type="primary" style="width:100%;" @click.native.prevent="handleLogin">
+        <el-button :loading="loading" type="primary" @click.native.prevent="handleLogin">
           Sign in
         </el-button>
       </el-form-item>
@@ -43,7 +43,7 @@ const loading = ref(false);
 
 const handleLogin = () => {
   login(loginForm.value.username, loginForm.value.password)
-      .then(res => {
+      .then(() => {
         ElMessage.success("Login successful");
         router.push('/');
       }).catch(err => {

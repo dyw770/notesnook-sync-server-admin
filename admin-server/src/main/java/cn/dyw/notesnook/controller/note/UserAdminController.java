@@ -69,7 +69,7 @@ public class UserAdminController {
      * @param rq 锁定参数
      * @return 结果
      */
-    @PostMapping("/lock")
+    @PutMapping("/lock")
     public ApiResult<Void> lock(@RequestBody LockUserRq rq) {
         noteUserService.lockUser(rq);
         return ApiResult.success("锁定用户成功");

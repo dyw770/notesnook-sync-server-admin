@@ -1,13 +1,11 @@
 package cn.dyw.notesnook.controller.note;
 
-import cn.dyw.notesnook.entity.Notes;
 import cn.dyw.notesnook.msg.ApiResult;
-import cn.dyw.notesnook.repository.notesnook.NotesRepository;
+import cn.dyw.notesnook.msg.rs.DashboardRs;
+import cn.dyw.notesnook.service.NotesService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 /**
  * @author dyw770
@@ -17,23 +15,21 @@ import java.util.List;
 @RequestMapping("/admin/notes")
 public class NotesAdminController {
 
-    private final NotesRepository notesRepository;
 
-    public NotesAdminController(NotesRepository notesRepository) {
-        this.notesRepository = notesRepository;
+    private final NotesService notesService;
+
+    public NotesAdminController(NotesService notesService) {
+        this.notesService = notesService;
     }
 
     /**
-     * 返回所有的笔记
+     * 返回首页统计数据
      *
-     * @return 笔记列表
+     * @return 统计数据
      */
-    @GetMapping()
-    public ApiResult<List<Notes>> list() {
-        List<Notes> list = notesRepository.findAll();
-        return ApiResult.success(list);
+    @GetMapping("/dashboard")
+    public ApiResult<DashboardRs> dashboard() {
+        return ApiResult.success(notesService.dashboard());
     }
-    
-    
 }
 

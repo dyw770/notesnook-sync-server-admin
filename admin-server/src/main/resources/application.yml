@@ -10,7 +10,7 @@ spring:
   jackson:
     serialization:
       write-dates-with-zone-id: true
-      write-dates-as-timestamps: true
+    date-format: com.fasterxml.jackson.databind.util.ISO8601DateFormat
 notesnook:
   app-salt: ${APP_SALT:oVzKtazBo7d8sb7TBvY9jw}
   identity-db-name: ${IDENTITY_DB_NAME:identity}

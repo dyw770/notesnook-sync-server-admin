@@ -17,5 +17,5 @@ export function lockUser(id: string, lockoutEnd: string) {
 }
 
 export function userInfo() {
-    return request.get("/admin/users/info");
+    return request.get("/user/info");
 }

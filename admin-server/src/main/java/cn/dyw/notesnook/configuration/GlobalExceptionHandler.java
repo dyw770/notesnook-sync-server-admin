@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.ServletRequestBindingException;
@@ -146,13 +147,30 @@ public class GlobalExceptionHandler {
      * @param e 异常
      * @return 结果
      */
-    @ExceptionHandler({MethodArgumentNotValidException.class,
-            ConstraintViolationException.class,
+    @ExceptionHandler({ConstraintViolationException.class,
             ServletRequestBindingException.class,
             MethodArgumentTypeMismatchException.class})
-    private ApiResult<Void> methodArgumentNotValidExceptionHandler(Exception e) {
+    private ApiResult<Void> methodArgumentExceptionHandler(Exception e) {
         logException(e);
         return ApiResult.fail(ResultCode.PARAM_ERROR);
+    }
+
+
+    /**
+     * 参数相关异常
+     *
+     * @param e 异常
+     * @return 结果
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    private ApiResult<Void> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
+        logException(e);
+        FieldError fieldError = e.getFieldError();
+        if (fieldError != null) {
+            return ApiResult.fail(ResultCode.PARAM_ERROR.getCode(), fieldError.getDefaultMessage() +": " + fieldError.getRejectedValue());
+        } else {
+            return ApiResult.fail(ResultCode.PARAM_ERROR);
+        }
     }
 
     /**

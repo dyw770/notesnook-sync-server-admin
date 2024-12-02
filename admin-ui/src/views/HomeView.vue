@@ -41,7 +41,11 @@
       <el-table-column prop="lockoutEnabled" label="Lockout Enabled" width="180"/>
       <el-table-column prop="userName" label="User Name" width="180"/>
       <el-table-column prop="emailConfirmed" label="Email Confirmed" width="180"/>
-      <el-table-column prop="lockoutEnd" label="Lockout End" width="180"/>
+      <el-table-column prop="lockoutEnd" label="Lockout End" width="180">
+        <template #default="scope">
+          {{ dayjs(scope.row.lockoutEnd).format('YYYY-MM-DD HH:mm:ss') }}
+        </template>
+      </el-table-column>
       <el-table-column prop="phoneNumber" label="phoneNumber" width="180"/>
       <el-table-column prop="phoneNumberConfirmed" label="Phone Number Confirmed" width="180"/>
       <el-table-column fixed="right" label="Operations" min-width="120">
@@ -139,6 +143,7 @@ import {addUser, deleteUser, listUser, lockUser} from '@/api/notesnookUsers';
 import {getDashboard} from '@/api/dashboard'
 import {onMounted, ref} from "vue";
 import {ElMessage} from "element-plus";
+import dayjs from 'dayjs'
 
 type NotesnookUser = {
   id: string,

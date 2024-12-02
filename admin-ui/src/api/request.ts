@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {ElMessage} from 'element-plus';
+import router from "@/router";
 
 const service = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
@@ -23,7 +24,10 @@ service.interceptors.response.use(
             return Promise.resolve(response);
         } else {
             ElMessage.error(response.data.msg);
-            return Promise.reject(response);
+            if (response.data.code === 2001) {
+                router.push('/login');
+            }
+            return Promise.reject(response.data.msg);
         }
     },
     error => {

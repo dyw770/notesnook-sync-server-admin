@@ -54,7 +54,7 @@ public class WebSecurityConfiguration {
                                 .requestMatchers("/webjars/**").permitAll()
                                 .requestMatchers("/favicon.ico").permitAll()
                                 .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
-                                .anyRequest().authenticated()
+                                .anyRequest().permitAll()
                 )
                 .securityContext(securityContext ->
                         securityContext.securityContextRepository(securityContextRepository()))

@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-  <el-button class="logout-btn" type="danger" plain :icon="Right" @click="handleLogout">Logout</el-button>
+    <el-button class="logout-btn" type="danger" plain :icon="Right" @click="handleLogout">Logout</el-button>
 
     <div class="home-card">
       <el-card class="home-card-item">
@@ -41,121 +41,122 @@
       <el-table height="calc(100% - 44px)" :data="userListData">
         <el-table-column
             type="index"
-            width="50" />
+            width="50"
+            label="#"/>
         <el-table-column
-          prop="accessFailedCount"
-          label="Access Failed"
-          width="180" />
+            prop="accessFailedCount"
+            label="Access Failed"
+            width="120"/>
         <el-table-column
-          prop="email"
-          label="email"
-          width="180" />
+            prop="email"
+            label="email"
+            width="200"/>
         <el-table-column
-          prop="lockoutEnabled"
-          label="Lockout Enabled"
-          width="180" />
+            prop="lockoutEnabled"
+            label="Lockout Enabled"
+            width="160"/>
         <el-table-column
-          prop="userName"
-          label="User Name"
-          width="180" />
+            prop="userName"
+            label="User Name"
+            width="180"/>
         <el-table-column
-          prop="emailConfirmed"
-          label="Email Confirmed"
-          width="180" />
+            prop="emailConfirmed"
+            label="Email Confirmed"
+            width="180"/>
         <el-table-column
-          prop="lockoutEnd"
-          label="Lockout End"
-          width="180" >
+            prop="lockoutEnd"
+            label="Lockout End"
+            width="180">
           <template #default="scope">
             {{ dayjs(scope.row.lockoutEnd).format('YYYY-MM-DD HH:mm:ss') }}
           </template>
         </el-table-column>
         <el-table-column
-          prop="phoneNumber"
-          label="phoneNumber"
-          width="180" />
+            prop="phoneNumber"
+            label="phoneNumber"
+            width="180"/>
         <el-table-column
-          prop="phoneNumberConfirmed"
-          label="Phone Number Confirmed"
-          width="180" />
+            prop="phoneNumberConfirmed"
+            label="Phone Number Confirmed"
+            width="180"/>
         <el-table-column
-          fixed="right"
-          label="Operations"
-          min-width="120">
+            fixed="right"
+            label="Operations"
+            min-width="120">
           <template #header>
             <el-button
-              link
-              type="primary"
-              size="small"
-              @click.prevent="showAddDialog">
+                link
+                type="primary"
+                size="small"
+                @click.prevent="showAddDialog">
               Add
             </el-button>
           </template>
           <template #default="scope">
             <el-button
-              link
-              type="danger"
-              size="small"
-              @click.prevent="handleDelete(scope.row.id)">
+                link
+                type="danger"
+                size="small"
+                @click.prevent="handleDelete(scope.row.id)">
               Remove
             </el-button>
             <el-button
-              link
-              type="warning"
-              size="small"
-              @click.prevent="showLockDialog(scope.row)">
+                link
+                type="warning"
+                size="small"
+                @click.prevent="showLockDialog(scope.row)">
               Lock
             </el-button>
           </template>
         </el-table-column>
       </el-table>
       <el-pagination
-        class="home-data-page"
-        layout="total, sizes, prev, pager, next"
-        v-model:current-page="pageData.currentPage"
-        v-model:page-size="pageData.pageSize"
-        :page-sizes="[10, 50, 100, 500]"
-        :total="pageData.total" />
+          class="home-data-page"
+          layout="total, sizes, prev, pager, next"
+          v-model:current-page="pageData.currentPage"
+          v-model:page-size="pageData.pageSize"
+          :page-sizes="[10, 50, 100, 500]"
+          :total="pageData.total"/>
 
       <!-- lock dialog -->
       <el-dialog
-        v-model="dialogShow.showLock"
-        title="Lock User"
-        width="500">
+          v-model="dialogShow.showLock"
+          title="Lock User"
+          width="500">
         <el-form :model="lockForm">
           <el-form-item
-            label="ID"
-            prop="id">
+              label="ID"
+              prop="id">
             <el-input
-              v-model="lockForm.id"
-              autocomplete="off"
-              disabled />
+                v-model="lockForm.id"
+                autocomplete="off"
+                disabled/>
           </el-form-item>
           <el-form-item
-            label="userName"
-            prop="userName">
+              label="userName"
+              prop="userName">
             <el-input
-              v-model="lockForm.userName"
-              autocomplete="off"
-              disabled />
+                v-model="lockForm.userName"
+                autocomplete="off"
+                disabled/>
           </el-form-item>
           <el-form-item
-            label="Lockout End"
-            prop="lockoutEnd">
+              label="Lockout End"
+              prop="lockoutEnd">
             <el-date-picker
-              v-model="lockForm.lockoutEnd"
-              type="datetime"
-              placeholder="Pick a Date"
-              format="YYYY-MM-DDTHH:mm:ss.SSSZ"
-              value-format="YYYY-MM-DDTHH:mm:ss.SSSZ" />
+                v-model="lockForm.lockoutEnd"
+                type="datetime"
+                placeholder="Pick a Date"
+                format="YYYY-MM-DDTHH:mm:ss.SSSZ"
+                value-format="YYYY-MM-DDTHH:mm:ss.SSSZ"/>
           </el-form-item>
         </el-form>
         <template #footer>
           <div class="dialog-footer">
             <el-button @click="dialogShow.showLock = false">Cancel</el-button>
             <el-button
-              type="primary"
-              @click="handleLock">
+                type="primary"
+                @click="handleLock">
               Confirm
             </el-button>
           </div>
@@ -164,40 +165,40 @@
 
       <!-- add dialog -->
       <el-dialog
-        v-model="dialogShow.showAdd"
-        title="Add User"
-        width="500">
+          v-model="dialogShow.showAdd"
+          title="Add User"
+          width="500">
         <el-form :model="addForm">
           <el-form-item
-            label="Username"
-            prop="userName">
+              label="Username"
+              prop="userName">
             <el-input
-              v-model="addForm.userName"
-              autocomplete="off" />
+                v-model="addForm.userName"
+                autocomplete="off"/>
           </el-form-item>
           <el-form-item
-            label="Password"
-            prop="password">
+              label="Password"
+              prop="password">
             <el-input
-              v-model="addForm.password"
-              type="password"
-              autocomplete="off" />
+                v-model="addForm.password"
+                type="password"
+                autocomplete="off"/>
           </el-form-item>
           <el-form-item
-            label="Email"
-            prop="email">
+              label="Email"
+              prop="email">
             <el-input
-              v-model="addForm.email"
-              type="text"
-              autocomplete="off" />
+                v-model="addForm.email"
+                type="text"
+                autocomplete="off"/>
           </el-form-item>
         </el-form>
         <template #footer>
           <div class="dialog-footer">
             <el-button @click="dialogShow.showAdd = false">Cancel</el-button>
             <el-button
-              type="primary"
-              @click="handleAdd">
+                type="primary"
+                @click="handleAdd">
               Confirm
             </el-button>
           </div>
@@ -325,9 +326,9 @@ const showAddDialog = () => {
 
 const handleAdd = () => {
   addUser(
-    addForm.value.userName,
-    addForm.value.password,
-    addForm.value.email
+      addForm.value.userName,
+      addForm.value.password,
+      addForm.value.email
   ).then(() => {
     ElMessage.success('Add successful')
     dialogShow.value.showAdd = false
@@ -357,24 +358,29 @@ onMounted(() => {
 .home {
   height: 100vh;
 }
+
 .home-card {
   display: flex;
   margin-bottom: 8px;
   gap: 10px;
   padding: 16px;
 }
+
 .home-card-item {
   flex: 1;
   flex-shrink: 0;
 }
+
 .home-data {
   padding: 10px 20px;
   height: calc(100vh - 182px);
 }
+
 .home-data-page {
   margin-top: 12px;
 }
-.logout-btn{
+
+.logout-btn {
   position: fixed;
   right: 10px;
   bottom: 10px;

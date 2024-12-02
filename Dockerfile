@@ -15,13 +15,31 @@ RUN apt update \
     && rm -rf libsodium-stable \
     && rm -rf libsodium-1.0.20-stable.tar.gz
 
+FROM node:20.18.1 AS vue-builder
+
+WORKDIR /app
+
+ADD ./admin-ui /app/admin-ui
+
+RUN cd admin-ui \
+    && npm install \
+    && npm run build \
+    && tar -czvf /app/dist.tar.gz -C dist/ .
+
+
 FROM maven:3.9.9-eclipse-temurin-17 AS java-builder
 
-WORKDIR /app/notesnook-sync-server-admin
+WORKDIR /app
 
-COPY . /app/notesnook-sync-server-admin
+ADD ./admin-server /app/admin-server
 
-RUN  mvn clean package -DskipTests=true \
+COPY --from=vue-builder /app/dist.tar.gz /app
+
+RUN  mkdir -p /app/admin-server/src/main/resources/static \
+     && tar -C /app/admin-server/src/main/resources/static -xzvf /app/dist.tar.gz \
+     && cd admin-server \
+     && ls -al /app/admin-server/src/main/resources/static \
+     && mvn clean package -DskipTests=true \
      && app_file="$(mvn help:evaluate -Dexpression="project.build.finalName" -q -DforceStdout).jar" \
      && cp target/$app_file notesnook-sync-server-admin.jar
 
@@ -36,7 +54,7 @@ WORKDIR /app
 
 COPY --from=sodium-builder /usr/local/lib/libsodium.so /usr/local/lib/
 
-COPY --from=java-builder /app/notesnook-sync-server-admin/notesnook-sync-server-admin.jar \
+COPY --from=java-builder /app/admin-server/notesnook-sync-server-admin.jar \
     /app/notesnook-sync-server-admin.jar
 
-ENTRYPOINT ["java", "-jar", "notesnook-sync-server-admin.jar", "--spring.profiles.active=prod"]
+ENTRYPOINT ["java", "-Xms256m", "-Xmx512m", "-jar", "notesnook-sync-server-admin.jar", "--spring.profiles.active=prod"]

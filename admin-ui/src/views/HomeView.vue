@@ -298,7 +298,8 @@ const dialogShow = ref({
 })
 
 const handleDelete = (id: string) => {
-  deleteUser(id).then(() => {
+  deleteUser(id).then((res) => {
+    ElMessage.success(res.data.msg)
     refresh()
   })
 }
@@ -311,8 +312,8 @@ const showLockDialog = (user: NotesnookUser) => {
 }
 
 const handleLock = () => {
-  lockUser(lockForm.value.id, lockForm.value.lockoutEnd).then(() => {
-    ElMessage.success('Lock successful')
+  lockUser(lockForm.value.id, lockForm.value.lockoutEnd).then((res) => {
+    ElMessage.success(res.data.msg)
     dialogShow.value.showLock = false
     initLockForm()
     refresh()
@@ -329,8 +330,8 @@ const handleAdd = () => {
       addForm.value.userName,
       addForm.value.password,
       addForm.value.email
-  ).then(() => {
-    ElMessage.success('Add successful')
+  ).then((res) => {
+    ElMessage.success(res.data.msg)
     dialogShow.value.showAdd = false
     initAddForm()
     refresh()
@@ -343,7 +344,8 @@ const loadDashboard = () => {
   })
 }
 const handleLogout = () => {
-  logout().then(() => {
+  logout().then((res) => {
+    ElMessage.success(res.data.msg)
     router.push('/login')
   })
 }

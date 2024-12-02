@@ -60,7 +60,7 @@ public class AdminController {
         this.securityContextHolderStrategy.setContext(context);
         this.securityContextRepository.saveContext(context, request, response);
 
-        return ApiResult.success("登陆成功", rq.getUsername());
+        return ApiResult.success("Login successful", rq.getUsername());
     }
 
     /**
@@ -75,7 +75,7 @@ public class AdminController {
     public ApiResult<Void> logout(Authentication authentication, HttpServletRequest request, HttpServletResponse response) {
 
         this.logoutHandler.logout(request, response, authentication);
-        return ApiResult.success("登出成功");
+        return ApiResult.success("Logout successful");
     }
 
     /**

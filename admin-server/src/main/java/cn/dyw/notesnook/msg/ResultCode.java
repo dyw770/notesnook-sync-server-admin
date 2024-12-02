@@ -12,33 +12,33 @@ public enum ResultCode {
     /**
      * 请求成功
      */
-    SUCCESS(0, "请求成功"),
+    SUCCESS(0, "Success"),
 
-    UNKNOWN(1000, "未知异常"),
+    UNKNOWN(1000, "Unknown"),
 
-    FAIL(1001, "操作失败"),
+    FAIL(1001, "Request failure"),
 
-    LOGIN_FAILURE(2000, "登陆失败"),
+    LOGIN_FAILURE(2000, "Login failure"),
 
-    NOT_LOGIN(2001, "未登陆, 请先登陆"),
+    NOT_LOGIN(2001, "Not login"),
 
-    LOGIN_ERROR(2003, "登陆处理异常"),
+    LOGIN_ERROR(2003, "Login error"),
 
-    ACCOUNT_STATUS_ABNORMAL(2004, "账号异常"),
+    ACCOUNT_STATUS_ABNORMAL(2004, "Account status abnormal"),
 
-    BAD_CREDENTIALS(2005, "用户名或密码错误"),
+    BAD_CREDENTIALS(2005, "Username or password is incorrect"),
 
-    ACCOUNT_NOT_FOUND(2006, "用户不存在"),
+    ACCOUNT_NOT_FOUND(2006, "User not found"),
 
-    AUTH_FAILURE(3000, "权限不足, 无法完成操作"),
+    AUTH_FAILURE(3000, "Permission denied"),
 
-    PARAM_ERROR(5002, "参数异常, 请检查参数"),
+    PARAM_ERROR(5002, "Param error"),
 
-    REQUEST_METHOD_ERROR(5003, "请求方法错误"),
+    REQUEST_METHOD_ERROR(5003, "Request method error"),
 
-    REQUEST_BODY_MISS_ERROR(5004, "缺少Request Body"),
+    REQUEST_BODY_MISS_ERROR(5004, "Miss Request Body"),
 
-    NO_STATIC_RESOURCE_ERROR(5005, "无法找到静态资源"),
+    NO_STATIC_RESOURCE_ERROR(5005, "Resource not found"),
 
     ;
 

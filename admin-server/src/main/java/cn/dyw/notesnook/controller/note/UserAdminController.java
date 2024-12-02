@@ -37,7 +37,7 @@ public class UserAdminController {
     @PostMapping
     public ApiResult<String> create(@Valid @RequestBody CreateUserRq rq) {
         String userId = noteUserService.createNoteUser(rq);
-        return ApiResult.success("创建用户成功", userId);
+        return ApiResult.success("Create successful", userId);
     }
 
     /**
@@ -48,7 +48,7 @@ public class UserAdminController {
      */
     @GetMapping
     public ApiResult<Page<UserRs>> list(Pageable pageable) {
-        return ApiResult.success("查询用户列表成功", noteUserService.listUser(pageable));
+        return ApiResult.success("Query successful", noteUserService.listUser(pageable));
     }
 
     /**
@@ -60,7 +60,7 @@ public class UserAdminController {
     @DeleteMapping
     public ApiResult<Void> delete(@Length(min = 24, max = 24) @NotEmpty @RequestParam("id") String id) {
         noteUserService.deleteUser(id);
-        return ApiResult.success("删除用户成功");
+        return ApiResult.success("Delete successful");
     }
 
     /**
@@ -72,13 +72,13 @@ public class UserAdminController {
     @PutMapping("/lock")
     public ApiResult<Void> lock(@RequestBody LockUserRq rq) {
         noteUserService.lockUser(rq);
-        return ApiResult.success("锁定用户成功");
+        return ApiResult.success("Lock successful");
     }
 
     @GetMapping("/unlock")
-    public ApiResult<Void> unlock(@Length(min = 24, max = 24)  @RequestParam("id") String id) {
+    public ApiResult<Void> unlock(@Length(min = 24, max = 24) @RequestParam("id") String id) {
         noteUserService.unlockUser(id);
-        return ApiResult.success("解锁用户成功");
+        return ApiResult.success("Unlock successful");
     }
 }
 

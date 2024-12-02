@@ -44,8 +44,8 @@ import {login} from '@/api/user'
 import {ElMessage} from 'element-plus'
 
 const loginForm = ref<{ username: string; password: string }>({
-  username: 'admin',
-  password: 'admin'
+  username: '',
+  password: ''
 })
 const loading = ref(false)
 

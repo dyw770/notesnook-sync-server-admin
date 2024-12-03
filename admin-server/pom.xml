@@ -10,7 +10,7 @@
     </parent>
     <groupId>cn.dyw</groupId>
     <artifactId>notesnook-admin-server</artifactId>
-    <version>0.0.1-alpha.0</version>
+    <version>0.0.1-alpha.1</version>
     <name>notesnook-admin-server</name>
     <description>notesnook-admin-server</description>
     <url/>

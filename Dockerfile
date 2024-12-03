@@ -38,7 +38,6 @@ COPY --from=vue-builder /app/dist.tar.gz /app
 RUN  mkdir -p /app/admin-server/src/main/resources/static \
      && tar -C /app/admin-server/src/main/resources/static -xzvf /app/dist.tar.gz \
      && cd admin-server \
-     && ls -al /app/admin-server/src/main/resources/static \
      && mvn clean package -DskipTests=true \
      && app_file="$(mvn help:evaluate -Dexpression="project.build.finalName" -q -DforceStdout).jar" \
      && cp target/$app_file notesnook-sync-server-admin.jar

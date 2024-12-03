@@ -38,15 +38,11 @@
     </div>
 
     <div class="home-data">
-      <el-table height="calc(100% - 44px)" :data="userListData">
+      <el-table height="calc(100% - 44px)" :data="userListData" border stripe>
         <el-table-column
             type="index"
             width="50"
             label="#"/>
-        <el-table-column
-            prop="accessFailedCount"
-            label="Access Failed"
-            width="120"/>
         <el-table-column
             prop="email"
             label="email"
@@ -54,7 +50,11 @@
         <el-table-column
             prop="lockoutEnabled"
             label="Lockout Enabled"
-            width="160"/>
+            width="160">
+          <template #default="scope">
+            {{ scope.row.lockoutEnabled ? 'Enabled' : 'Disabled' }}
+          </template>
+        </el-table-column>
         <el-table-column
             prop="userName"
             label="User Name"
@@ -62,7 +62,11 @@
         <el-table-column
             prop="emailConfirmed"
             label="Email Confirmed"
-            width="180"/>
+            width="180">
+          <template #default="scope">
+            {{ scope.row.emailConfirmed ? 'Confirmed' : 'Not Confirmed' }}
+          </template>
+        </el-table-column>
         <el-table-column
             prop="lockoutEnd"
             label="Lockout End"
@@ -73,16 +77,19 @@
         </el-table-column>
         <el-table-column
             prop="phoneNumber"
-            label="phoneNumber"
+            label="Phone Number"
             width="180"/>
         <el-table-column
             prop="phoneNumberConfirmed"
             label="Phone Number Confirmed"
             width="180"/>
         <el-table-column
+            prop="accessFailedCount"
+            label="Access Failed"
+            width="120"/>
+        <el-table-column
             fixed="right"
-            label="Operations"
-            min-width="120">
+            label="Operations">
           <template #header>
             <el-button
                 link
@@ -97,7 +104,7 @@
                 link
                 type="danger"
                 size="small"
-                @click.prevent="handleDelete(scope.row.id)">
+                @click.prevent="showDeleteDialog(scope.row)">
               Remove
             </el-button>
             <el-button
@@ -123,7 +130,9 @@
           v-model="dialogShow.showLock"
           title="Lock User"
           width="500">
-        <el-form :model="lockForm">
+        <el-form :model="lockForm"
+                 label-width="auto"
+                 label-position="right">
           <el-form-item
               label="ID"
               prop="id">
@@ -168,7 +177,9 @@
           v-model="dialogShow.showAdd"
           title="Add User"
           width="500">
-        <el-form :model="addForm">
+        <el-form :model="addForm"
+                 label-width="auto"
+                 label-position="right">
           <el-form-item
               label="Username"
               prop="userName">
@@ -213,7 +224,7 @@ import {Right} from '@element-plus/icons-vue'
 import {addUser, deleteUser, listUser, lockUser, logout} from '@/api/notesnookUsers'
 import {getDashboard} from '@/api/dashboard'
 import {onMounted, ref} from 'vue'
-import {ElMessage} from 'element-plus'
+import {ElMessage, ElMessageBox} from 'element-plus'
 import dayjs from 'dayjs'
 import router from "@/router";
 
@@ -296,6 +307,21 @@ const dialogShow = ref({
   showLock: false,
   showAdd: false
 })
+
+const showDeleteDialog = (user: NotesnookUser) => {
+  ElMessageBox.confirm(
+      `Delete User ${user.userName}. Continue?`,
+      'Warning',
+      {
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel',
+        type: 'warning',
+      }
+  ).then(() => {
+    handleDelete(user.id)
+  }).catch(() => {
+  })
+}
 
 const handleDelete = (id: string) => {
   deleteUser(id).then((res) => {

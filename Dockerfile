@@ -1,4 +1,4 @@
-FROM ubuntu:24.10 AS sodium-builder
+FROM --platform=$BUILDPLATFORM ubuntu:24.10 AS sodium-builder
 
 WORKDIR /app
 
@@ -15,7 +15,7 @@ RUN apt update \
     && rm -rf libsodium-stable \
     && rm -rf libsodium-1.0.20-stable.tar.gz
 
-FROM node:20.18.1 AS vue-builder
+FROM --platform=$BUILDPLATFORM node:20.18.1 AS vue-builder
 
 WORKDIR /app
 
@@ -27,7 +27,7 @@ RUN cd admin-ui \
     && tar -czvf /app/dist.tar.gz -C dist/ .
 
 
-FROM maven:3.9.9-eclipse-temurin-17 AS java-builder
+FROM --platform=$BUILDPLATFORM maven:3.9.9-eclipse-temurin-17 AS java-builder
 
 WORKDIR /app
 
@@ -43,9 +43,14 @@ RUN  mkdir -p /app/admin-server/src/main/resources/static \
      && app_file="$(mvn help:evaluate -Dexpression="project.build.finalName" -q -DforceStdout).jar" \
      && cp target/$app_file notesnook-sync-server-admin.jar
 
-FROM eclipse-temurin:17-jdk
+FROM --platform=$BUILDPLATFORM eclipse-temurin:17-jdk
 
 LABEL authors="dyw770"
+LABEL org.opencontainers.image.title="Notesnook Sync Server Admin"
+LABEL org.opencontainers.image.source=https://github.com/dyw770/notesnook-sync-server-admin
+LABEL org.opencontainers.image.url=https://github.com/dyw770/notesnook-sync-server-admin
+LABEL org.opencontainers.image.description="Notesnook Sync Server Admin"
+
 
 ENV ADMIN_USERNAME=admin
 ENV ADMIN_PASSWORD=admin

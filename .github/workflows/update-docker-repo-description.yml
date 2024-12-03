@@ -1,0 +1,23 @@
+name: update docker repo description
+on: workflow_dispatch
+
+env:
+  IMAGE_NAME: dyw770/notesnook-server-admin
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+    steps:
+      - name: Update repo description
+        uses: peter-evans/dockerhub-description@v4
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          repository: ${{ env.IMAGE_NAME }}
+          short-description: "Notesnook self-host sync server admin"
+          enable-url-completion: true

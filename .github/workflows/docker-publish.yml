@@ -58,6 +58,8 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
           repository: ${{ env.IMAGE_NAME }}
+          short-description: "Notesnook self host sync server admin"
+          enable-url-completion: true
 
       - name: Generate Artifact Attestation
         uses: actions/attest-build-provenance@v1
